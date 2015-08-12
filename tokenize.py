@@ -1,4 +1,8 @@
+__author__ = 'Joshua Chin'
+
 from wordfreq import simple_tokenize
+
+
 
 def main(in_file, out_file, err):
     print("TOKENIZING", file=err)

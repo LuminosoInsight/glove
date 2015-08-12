@@ -1,4 +1,4 @@
-#!/bin/python3
+__author__ = 'Joshua Chin'
 
 import numpy as np
 

@@ -1,0 +1,26 @@
+This is a fork of Glove that fixes a few bugs and makes it more python friendly
+
+GloVe: Global Vectors for Word Representation
+_____________________________________________________
+
+
+We provide an implementation of the GloVe model for learning word representations, as well as some auxiliary tools to construct word-word cooccurrence matrices from large corpora.
+
+This package includes six main tools:
+
+1) tokenize
+Preprocess the file using the unicode aware `wordfreq.simple_tokenize`
+2) vocab_count
+Constructs unigram counts from a corpus, and optionally threshholds the resulting vocabulary based on total vocabulary size or minimum frequency count.
+3) cooccur
+Constructs word-word cooccurrence statistics from a corpus. The user should supply a vocabulary file, as produced by 'vocab_count', and may specify a variety of parameters, as described by running './cooccur'.
+4) shuffle
+Shuffles the binary file of cooccurrence statistics produced by 'cooccur'. For large files, the file is automatically split into chunks, each of which is shuffled and stored on disk before being merged and shuffled togther. The user may specify a number of parameters, as described by running './shuffle'.
+5) glove
+Train the GloVe model on the specified cooccurrence data, which typically will be the output of the 'shuffle' tool. The user should supply a vocabulary file, as given by 'vocab', and may specify a number of other parameters, which are described by running './glove'.
+6) convert
+Convert the binary vector file into a numpy vector file.
+
+The entire process can be execute on a file with the script `build_glove.sh`.
+
+All work contained in this package is licensed under the Apache License, Version 2.0. See the include LICENSE file.

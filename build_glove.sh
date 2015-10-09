@@ -18,22 +18,10 @@ VECTOR_SIZE=300
 MAX_ITER=25
 WINDOW_SIZE=10
 
-ipython tokenize.py < $CORPUS > $PROCESSED_CORPUS
-if [[ $? -eq 0 ]]
-then
-  ./vocab_count -min-count $VOCAB_MIN_COUNT -verbose $VERBOSE < $PROCESSED_CORPUS > $VOCAB_FILE
-  if [[ $? -eq 0 ]]
-  then
-    ./cooccur -memory $MEMORY -vocab-file $VOCAB_FILE -verbose $VERBOSE -window-size $WINDOW_SIZE < $PROCESSED_CORPUS > $COOCCURRENCE_FILE
-    if [[ $? -eq 0 ]]
-    then
-      ./shuffle -memory $MEMORY -verbose $VERBOSE < $COOCCURRENCE_FILE > $COOCCURRENCE_SHUF_FILE
-      ./glove -save-file $SAVE_FILE -input-file $COOCCURRENCE_SHUF_FILE -iter $MAX_ITER -vector-size $VECTOR_SIZE -binary $BINARY -vocab-file $VOCAB_FILE -verbose $VERBOSE
-      if [[ $? -eq 0 ]]
-      then
-        ipython convert.py $VECTOR_SIZE "$SAVE_FILE.bin" $SAVE_FILE
-        cut -d' ' -f1 $VOCAB_FILE > $LABEL_FILE
-      fi
-    fi
-  fi
-fi
+ipython tokenize.py < $CORPUS > $PROCESSED_CORPUS && \
+./vocab_count -min-count $VOCAB_MIN_COUNT -verbose $VERBOSE < $PROCESSED_CORPUS > $VOCAB_FILE && \
+./cooccur -memory $MEMORY -vocab-file $VOCAB_FILE -verbose $VERBOSE -window-size $WINDOW_SIZE < $PROCESSED_CORPUS > $COOCCURRENCE_FILE && \
+./shuffle -memory $MEMORY -verbose $VERBOSE < $COOCCURRENCE_FILE > $COOCCURRENCE_SHUF_FILE && \
+./glove -save-file $SAVE_FILE -input-file $COOCCURRENCE_SHUF_FILE -iter $MAX_ITER -vector-size $VECTOR_SIZE -binary $BINARY -vocab-file $VOCAB_FILE -verbose $VERBOSE && \
+ipython convert.py $VECTOR_SIZE "$SAVE_FILE.bin" $SAVE_FILE && \
+cut -d' ' -f1 $VOCAB_FILE > $LABEL_FILE
